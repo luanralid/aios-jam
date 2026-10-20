@@ -10,7 +10,7 @@ export function NotFoundPage() {
       <EmptyState
         icon={<CompassIcon />}
         title="Page not found"
-        description="This route isn't registered. Check src/routes.ts."
+        description="This route isn't registered. Check src/config/routes.ts."
         action={
           <Button asChild>
             <Link to="/">Back to workspace</Link>

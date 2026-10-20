@@ -2,9 +2,9 @@
  * Page template — copy this file to start a new screen.
  *
  *   1. Copy to `src/pages/<name>.tsx` and rename `TemplatePage` (e.g. `ReportsPage`).
- *   2. Register it in `src/routes.ts`:
- *        { path: "/reports", Component: ReportsPage, navLabel: "Reports" }
- *      Omit `navLabel` to keep the page out of the header navigation.
+ *   2. Register it in `src/config/routes.ts` (this also adds it to the navigation):
+ *        { path: "/reports", label: "Reports", icon: ChartBarIcon, Component: ReportsPage }
+ *      Add `showInNav: false` to keep the page out of the header and mobile menu.
  *   3. Build the UI from `@/components/ui/*` and `@/components/layout`, using
  *      token utilities (bg-card, text-muted-foreground, border, ...) only.
  *

@@ -14,14 +14,12 @@ import {
   SheetTitle,
   SheetTrigger,
 } from "@/components/ui/sheet"
+import { navRoutes } from "@/config/routes"
 import { cn } from "@/lib/utils"
-import { routes } from "@/routes"
-
-const navItems = routes.filter((route) => route.navLabel)
 
 function navLinkClass({ isActive }: { isActive: boolean }) {
   return cn(
-    "rounded-md px-3 py-1.5 text-sm font-medium text-muted-foreground transition-colors hover:bg-muted hover:text-foreground",
+    "flex shrink-0 items-center gap-2 rounded-md px-3 py-1.5 text-sm font-medium whitespace-nowrap text-muted-foreground transition-colors outline-none hover:bg-muted hover:text-foreground focus-visible:ring-3 focus-visible:ring-ring/50 [&_svg]:size-4 [&_svg]:shrink-0",
     isActive && "bg-muted text-foreground"
   )
 }
@@ -34,32 +32,32 @@ export function SiteHeader() {
       <Container className="flex h-14 items-center gap-4">
         <Link
           to="/"
-          className="rounded-md outline-none focus-visible:ring-3 focus-visible:ring-ring/50"
+          className="shrink-0 rounded-md outline-none focus-visible:ring-3 focus-visible:ring-ring/50"
         >
           <Logo />
         </Link>
 
-        <nav aria-label="Main" className="hidden items-center gap-1 sm:flex">
-          {navItems.map((route) => (
-            <NavLink
-              key={route.path}
-              to={route.path}
-              end
-              className={navLinkClass}
-            >
-              {route.navLabel}
+        {/* Generated from src/config/routes.ts */}
+        <nav
+          aria-label="Main"
+          className="no-scrollbar hidden min-w-0 items-center gap-1 overflow-x-auto lg:flex"
+        >
+          {navRoutes.map(({ path, label, icon: Icon }) => (
+            <NavLink key={path} to={path} end className={navLinkClass}>
+              {Icon && <Icon aria-hidden="true" />}
+              {label}
             </NavLink>
           ))}
         </nav>
 
-        <div className="ml-auto flex items-center gap-1">
+        <div className="ml-auto flex shrink-0 items-center gap-1">
           <ThemeToggle />
           <Sheet open={menuOpen} onOpenChange={setMenuOpen}>
             <SheetTrigger asChild>
               <Button
                 variant="ghost"
                 size="icon"
-                className="sm:hidden"
+                className="lg:hidden"
                 aria-label="Open menu"
               >
                 <MenuIcon />
@@ -75,15 +73,16 @@ export function SiteHeader() {
                 </SheetDescription>
               </SheetHeader>
               <nav aria-label="Mobile" className="flex flex-col gap-1 px-4">
-                {navItems.map((route) => (
+                {navRoutes.map(({ path, label, icon: Icon }) => (
                   <NavLink
-                    key={route.path}
-                    to={route.path}
+                    key={path}
+                    to={path}
                     end
                     className={navLinkClass}
                     onClick={() => setMenuOpen(false)}
                   >
-                    {route.navLabel}
+                    {Icon && <Icon aria-hidden="true" />}
+                    {label}
                   </NavLink>
                 ))}
               </nav>

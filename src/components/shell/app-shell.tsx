@@ -4,14 +4,20 @@ import { Outlet, useLocation } from "react-router"
 import { Container } from "@/components/layout"
 import { SiteHeader } from "@/components/shell/site-header"
 import { Spinner } from "@/components/ui/spinner"
+import { routes } from "@/config/routes"
+
+const APP_NAME = "AIOS Jam"
 
 /** Layout shared by every route: sticky header, page content, footer. */
 export function AppShell() {
   const { pathname } = useLocation()
 
-  // Start each page at the top, like a regular navigation.
+  // Start each page at the top and name the tab after the route's label.
   useEffect(() => {
     window.scrollTo({ top: 0 })
+    const route = routes.find((item) => item.path === pathname)
+    document.title =
+      route && route.path !== "/" ? `${route.label} · ${APP_NAME}` : APP_NAME
   }, [pathname])
 
   return (
@@ -30,7 +36,7 @@ export function AppShell() {
       </main>
       <footer className="border-t">
         <Container className="flex h-14 items-center justify-between gap-4 text-xs text-muted-foreground">
-          <span>AIOS Jam</span>
+          <span>{APP_NAME}</span>
           <span>Built with React, Tailwind CSS and shadcn/ui</span>
         </Container>
       </footer>

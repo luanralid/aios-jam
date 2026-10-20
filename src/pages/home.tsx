@@ -31,7 +31,7 @@ const steps = [
     Icon: RouteIcon,
     title: "Register the route",
     description:
-      "Add one entry to src/routes.ts. Give it a navLabel to show it in the header.",
+      "Add one entry to src/config/routes.ts. It shows up in the header and mobile menu.",
   },
   {
     Icon: RocketIcon,

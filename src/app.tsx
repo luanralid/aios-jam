@@ -4,8 +4,8 @@ import { AppShell } from "@/components/shell/app-shell"
 import { ThemeProvider } from "@/components/theme-provider"
 import { Toaster } from "@/components/ui/sonner"
 import { TooltipProvider } from "@/components/ui/tooltip"
+import { routes } from "@/config/routes"
 import { NotFoundPage } from "@/pages/not-found"
-import { routes } from "@/routes"
 
 export function App() {
   return (
