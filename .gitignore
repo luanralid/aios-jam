@@ -1,18 +1,26 @@
-# Dependências
+# Dependencies
 node_modules/
 
-# Build
+# Build output
 dist/
+dist-ssr/
 build/
-.next/
-out/
+*.tsbuildinfo
 
-# Ambiente
+# Environment
 .env
 .env*.local
+*.local
 
-# Sistema / editores
-.DS_Store
-.vscode/
-.idea/
+# Logs
+logs
 *.log
+npm-debug.log*
+
+# OS / editors
+.DS_Store
+.vscode/*
+!.vscode/extensions.json
+.idea/
+*.suo
+*.sw?
