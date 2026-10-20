@@ -5,6 +5,8 @@ Web app starter with a ready-to-use design system. Drop in a page, compose desig
 **Live:** https://luanralid.github.io/aios-jam/
 
 - `/#/` — starter workspace
+- `/#/screen-1`, `/#/screen-2`, `/#/screen-3` — placeholder screens, already in the navigation
+- `/#/links` — link hub, generated from `src/content/links.ts`
 - `/#/design-system` — tokens and every component, with variants and states
 - `/#/template` — the page template, rendered
 
@@ -46,10 +48,13 @@ npm run dev        # http://localhost:5173/aios-jam/
 src/
   main.tsx                 Entry point
   app.tsx                  Providers (theme, tooltips, toasts) and the router
-  routes.ts                Route registry — every page is listed here
   index.css                Design tokens (colors, type, radius, shadows) for light and dark
+  config/routes.ts         Route registry — pages and navigation in one list
+  content/links.ts         Links shown on /links — paste URLs here
   pages/
     home.tsx               Starter workspace (/)
+    screen-1.tsx ... 3     Placeholder screens, ready to fill in
+    links.tsx              Link hub (/links)
     _template.tsx          Copy this to create a new page
     design-system/         Design system showcase (/design-system)
     not-found.tsx          Fallback for unknown routes
@@ -60,26 +65,63 @@ src/
     theme-provider.tsx     Light / dark / system theme, persisted in localStorage
   hooks/use-theme.ts       Read or change the theme
   lib/utils.ts             cn() class-name helper
+  lib/links.ts             Normalizes link entries (titles, hosts, favicons)
 .github/workflows/deploy.yml   Build and deploy to GitHub Pages
 ```
 
-## Add a page
+## How to add a page
+
+`src/config/routes.ts` is the single source of truth: one entry registers the route **and** adds it to the header and the mobile menu, in list order.
+
+**Fastest:** fill in a placeholder. `Screen 1`, `Screen 2` and `Screen 3` are already wired up — edit `src/pages/screen-1.tsx`, then rename its `label`, `path` and `icon` in `src/config/routes.ts`.
+
+**New page:**
 
 1. Copy `src/pages/_template.tsx` to `src/pages/reports.tsx` and rename `TemplatePage` to `ReportsPage`.
-2. Register it in `src/routes.ts`:
+2. Add one entry to `src/config/routes.ts`:
 
    ```ts
+   import { ChartBarIcon } from "lucide-react"
    import { ReportsPage } from "@/pages/reports"
 
    export const routes: AppRoute[] = [
      // ...
-     { path: "/reports", Component: ReportsPage, navLabel: "Reports" },
+     {
+       path: "/reports",
+       label: "Reports",
+       icon: ChartBarIcon,
+       Component: ReportsPage,
+     },
    ]
    ```
 
-   `navLabel` adds it to the header navigation; omit it for pages reached only by links.
+   | Field       | Purpose                                                                     |
+   | ----------- | --------------------------------------------------------------------------- |
+   | `path`      | URL, served as `/#/reports`                                                 |
+   | `label`     | Text in the header, mobile menu and browser tab                             |
+   | `icon`      | Optional [lucide](https://lucide.dev/icons) icon shown next to the label    |
+   | `Component` | The page component                                                          |
+   | `showInNav` | Optional; set `false` to keep a page out of the navigation (default `true`) |
 
-3. Open `/#/reports`. Link to it with `<Link to="/reports">` from `react-router`.
+3. Push to `main`. Link to the page from code with `<Link to="/reports">` from `react-router`.
+
+## How to add a link
+
+Paste the URL into the `links` array in `src/content/links.ts` and push — that's the only step. It appears on `/#/links` as a card that opens in a new tab, with the site's favicon.
+
+```ts
+export const links: LinkEntry[] = [
+  "https://example.com", // a bare URL works; the title becomes the host name
+  {
+    title: "Project brief",
+    url: "https://example.com/brief",
+    description: "Optional one-liner under the title.", // optional
+    tag: "Docs", // optional; each tag becomes a filter on the page
+  },
+]
+```
+
+URLs without a protocol (`example.com`) are accepted. The page has search and tag filters, and shows an empty state when the array is empty. Favicons come from Google's favicon service; if one fails to load, the card shows the site's initial instead.
 
 ## Design system
 
