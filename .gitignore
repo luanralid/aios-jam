@@ -1,0 +1,18 @@
+# Dependências
+node_modules/
+
+# Build
+dist/
+build/
+.next/
+out/
+
+# Ambiente
+.env
+.env*.local
+
+# Sistema / editores
+.DS_Store
+.vscode/
+.idea/
+*.log
